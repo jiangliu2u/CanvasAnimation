@@ -9,8 +9,45 @@
 <script src="ball.js"></script>
 <canvas id="can" width="1200" height="800">unsupported browser</canvas>
 <script>
-    var ba=new Ball(40,'red');
+    window.onload = function () {
+        var can = document.getElementById('can'),
+                ctx = can.getContext('2d');
+        var ba = new Ball(40, 'red');
+        //drawGrid(ctx, 'black', 20, 20);
 
+        ba.x = 40, ba.y = 760;
+        ba.vx = 3, ba.vy = -25, ba.gravity = 0.6;
+        ba.draw(ctx);
+        can.addEventListener('click', function (e) {
+            var mouse = utils.captureMouse(can);
+            console.log('球x'+ba.x+'球y'+ba.y);
+        });
+        function drawQ() {
+            window.requestAnimationFrame(drawQ, can);
+            ctx.clearRect(0, 0, can.width, can.height);
+            if (ba.x + ba.radius > can.width) {
+                ba.x = can.width - ba.radius;
+                ba.vx *= -1;
+            } else if (ba.x - ba.radius < 0) {
+                ba.x = ba.radius;
+                ba.vx *= -1;
+            }
+            if (ba.y + ba.radius > can.height) {
+                ba.y = can.height - ba.radius;
+                ba.vy *= -1;
+            } else if (ba.y - ba.radius < 0) {
+                ba.y = ba.radius;
+                ba.vy *= -1;
+            }
+            ba.vy += ba.gravity;
+            ba.x += ba.vx;
+            ba.y += ba.vy;
+            ba.draw(ctx);
+
+        }
+
+        drawQ();
+    }
 </script>
 </body>
 </html>
