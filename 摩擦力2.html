@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>摩擦力</title>
+    <style>
+        #cvs {
+            border: red solid thin;
+        }
+    </style>
+</head>
+<body>
+<canvas id="cvs" width="800" height="800">j</canvas>
+<script src="sprite.js"></script>
+<script>
+    window.onload = function () {
+        var cvs = document.getElementById('cvs'),
+                ctx = cvs.getContext('2d');
+        var qiu = new Sprite('blue',60);
+        var r;
+        qiu.x = 40;
+        qiu.y = 40;
+        var vx = 10;
+        var vy = 10;
+        var f = 0.11, speed = 0, angle = 0;
+
+        (function draw() {
+            window.requestAnimationFrame(draw, cvs);
+            clear();
+            speed = Math.sqrt(vx * vx + vy * vy);
+            angle = Math.atan2(vy, vx);
+
+            if (speed > f) {
+                speed -= f; //通过摩擦力减小速度
+            } else {
+                speed = 0;
+            }
+
+            vx = Math.cos(angle) * speed;
+            vy = Math.sin(angle) * speed;
+
+            qiu.x += vx;
+            qiu.y += vy;
+            qiu.draw(ctx);
+
+        }());
+
+        //draw();
+        function clear() {
+            ctx.fillStyle = 'rgba(255,255,255,0.3)';
+            ctx.fillRect(0, 0, cvs.width, cvs.height);
+        }
+    }
+</script>
+</body>
+</html>

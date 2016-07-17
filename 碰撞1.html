@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="ball.js"></script>
+<script src="utils.js"></script>
+<canvas id="ca" height="400" width='400'></canvas>
+<textarea name="textarea" id="txt" cols="30" rows="10"></textarea>
+<script>
+    window.onload = function () {
+        var canvas = document.getElementById('ca'),
+                context = canvas.getContext('2d'),
+                log = document.getElementById('txt');
+
+        //传入canvas,获取鼠标坐标
+        var mouse = utils.captureMouse(canvas);
+        var w = 0, h = 0;
+        var ball = new Ball(40, "red");
+        ball.x = canvas.width / 2;
+        ball.y = canvas.height / 2;
+        ball.draw(context);
+        drawGrid(context, 'black', 20, 20);
+        //定义状态函数
+        function state(wrd) {
+            /*注意这里用到了我们前面新加的代码
+             ball.getBounds(): 返回一个对象包含球的坐标，宽高.并作为参数传入
+             utils.containsPoint(): 判断点击区域，返回布尔值
+             */
+            if (utils.containsPoint(ball.getBounds(), mouse.x, mouse.y)) {
+                log.value = "in ball : " + wrd;
+            } else {
+                log.value = "canvas : " + wrd;
+            }
+        }
+
+        // 为canvas添加mousedown事件
+        canvas.addEventListener('mousedown', function (event) {
+            state("mousedown");
+            //mouseup
+            canvas.addEventListener('mouseup', function (event) {
+                state("mouseup");
+            }, false);
+            //mousemove
+            canvas.addEventListener('mousemove', function (event) {
+                state("mousemove");
+            }, false);
+
+        }, false);
+        canvas.addEventListener('mousedown', function(event){
+            //判断是否点击在球体上
+            if(utils.containsPoint(ball.getBounds(), mouse.x, mouse.y)){
+                w = mouse.x - ball.x;
+                h = mouse.y - ball.y;
+                canvas.addEventListener('mouseup', onMouseUp, false);
+                canvas.addEventListener('mousemove', onMouseMove, false);
+            }
+        }, false);
+        function onMouseUp(event){
+            canvas.removeEventListener('mouseup', onMouseUp, false);
+            canvas.removeEventListener('mousemove', onMouseMove, false);
+        }
+        //mousemove事件执行函数
+        function onMouseMove(event){
+            ball.x = mouse.x - w;
+            ball.y = mouse.y - h;
+        }
+        //动画循环
+        (function dramFrame(){
+            window.requestAnimationFrame(dramFrame, canvas);
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            ball.draw(context);
+        }());
+
+    }
+
+</script>
+</body>
+</html>

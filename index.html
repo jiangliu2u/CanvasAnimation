@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>sprite/碰壁检测</title>
+    <style>
+        canvas {
+            background-color: white;
+            border: black solid thin;
+        }
+    </style>
+</head>
+
+<body>
+<script src="sprite.js"></script>
+<canvas id="canvas" height="600" width="600">unsupported browser</canvas>
+<script>
+    window.onload = function () {
+
+        var canvas = document.getElementById('canvas'),
+                context = canvas.getContext('2d');
+        var ball = new Sprite('HH', 'blue', 20);
+        var raf;
+        var running = false;
+        //ball.x = canvas.width*Math.random();
+        //ball.y = canvas.height*Math.random();
+        ball.vx = 10 * Math.random();
+        ball.vy = 10 * Math.random();
+        ball.ax = 0.1;
+        ball.ay = 0.1;
+        canvas.addEventListener('mousemove', function (e) {
+            if (!running) {
+                context.fillStyle = 'rgba(255,255,255,0.3)';
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                ball.x = e.clientX;
+                ball.y = e.clientY;
+                ball.draw(context);
+            }
+
+        });
+        canvas.addEventListener('click', function (e) {
+            if (!running) {
+
+                raf = requestAnimationFrame(animate);
+                running = true;
+            }
+        });
+        canvas.addEventListener('mouseout', function (e) {
+            window.cancelAnimationFrame(raf);
+            running=false;
+        });
+        function animate() {
+            context.fillStyle = 'rgba(255,255,255,0.3)';
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            ball.draw(context);
+            ball.x += ball.vx;
+            ball.y += ball.vy;
+            if (ball.x + ball.radius > canvas.width) {
+                ball.x = canvas.width - ball.radius;
+                ball.vx *= -1;
+            } else if (ball.x - ball.radius < 0) {
+                ball.x = ball.radius;
+                ball.vx *= -1;
+            }
+            if (ball.y + ball.radius > canvas.height) {
+                ball.y = canvas.height - ball.radius;
+                ball.vy *= -1;
+            } else if (ball.y - ball.radius < 0) {
+                ball.y = ball.radius;
+                ball.vy *= -1;
+            }
+
+
+            raf = window.requestAnimationFrame(animate);
+        }
+    }
+</script>
+
+</body>
+</html>
