@@ -19,7 +19,7 @@ function Ball(radius,color){
 }
 
 Ball.prototype.draw = function(context){
-    drawGrid(context,'black',20,20);
+    //drawGrid(context,'white',20,20);
     context.save();
     context.translate(this.x,this.y);
     context.rotate(this.rotation);

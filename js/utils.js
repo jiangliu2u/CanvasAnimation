@@ -164,8 +164,8 @@ utils.colorToRGB = function (color, alpha) {
 };
 
 utils.containsPoint = function (rect, x, y) {
-    return !(x < rect.x || x > rect.x + rect.width ||
-    y < rect.y || y > rect.y + rect.height);
+    return !((x < rect.x || x > rect.x + rect.width ||
+    y < rect.y || y > rect.y + rect.height));
 }
 function drawGrid(context, color, stepX, stepY) {
     context.strokeStyle = color;
@@ -191,8 +191,8 @@ utils.intersects = function (rectA, rectB) {
     rectA.y + rectA.height < rectB.y ||
     rectB.y + rectB.height < rectA.y);
 }
-utils.prototype.getFps = function (context) {
-    
+utils.getFps = function (context) {
+
     var now = (+new Date),
         fps = 1000 / (now - lasttime);
     lasttime = now;
