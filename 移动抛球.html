@@ -54,7 +54,7 @@
         var mouse = utils.captureMouse(canvas);
         console.log("测试mouse的x、y，X：" + mouse.x + ' Y：' + mouse.y);
         canvas.addEventListener('mousedown', function (event) {//按下鼠标时执行
-            console.log("傻逼  啊啊测试mouse的x、y，X：" + mouse.x + ' Y：' + mouse.y);
+            console.log("测试mouse的x、y，X：" + mouse.x + ' Y：' + mouse.y);
             if (utils.containsPoint(ball.getBounds(), mouse.x, mouse.y)) {//如果点中了小球
                 w = mouse.x - ball.x;
                 h = mouse.y - ball.y;

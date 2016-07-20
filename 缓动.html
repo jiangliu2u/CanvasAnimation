@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>缓动动画</title>
+</head>
+<body>
+<script src="js/ball.js"></script>
+<script src="js/utils.js"></script>
+<canvas id="canvas" width="1200" height="800" style="background-color: black">ubsupported browser
+</canvas>
+<p id="p" style="font-size: 20px">aaaa</p>
+<script>
+    window.onload = function () {
+        var canvas = document.getElementById('canvas'),
+                ctx = canvas.getContext('2d'),
+                p=document.getElementById('p'),
+                ball = new Ball(40, 'orange'),
+                ball2 = new Ball(30,'green');
+        ball.x = 100;
+        ball2.x = 100;
+        ball.y = 400;
+        ball2.y = 400;
+        var vx = 10, vy = 10;
+        var vx2=6,vy2=20;
+        var mouse=utils.captureMouse(canvas);
+        var targetX=0,targetY=0;
+        canvas.addEventListener('mousemove',function (event) {
+            console.log("mousemove时测试mouse的x、y，X：" + mouse.x + ' Y：' + mouse.y);
+            p.firstChild.nodeValue='X:'+mouse.x+' Y:'+mouse.y;
+            targetX=mouse.x;//水平方向
+            targetY=mouse.y;
+        });
+        (function draw() {
+            window.requestAnimationFrame(draw, canvas);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            vx=(targetX-ball.x)*0.1;
+            vx2=(ball.x-ball2.x)*0.1;
+            vy2=(ball.y-ball2.y)*0.1;
+            vy=(targetY-ball.y)*0.1;
+            ball.x+=vx;
+            ball2.x+=vx2;
+            ball.y+=vy;
+            ball2.y+=vy2;
+            ball.draw(ctx);
+            ball2.draw(ctx);
+        }());
+    }
+</script>
+</body>
+</html>
