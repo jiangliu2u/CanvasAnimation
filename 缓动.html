@@ -42,9 +42,13 @@
             ball2.x+=vx2;
             ball.y+=vy;
             ball2.y+=vy2;
+
             ball.draw(ctx);
             ball2.draw(ctx);
         }());
+        var a = ctx.getImageData(0,0,canvas.width,canvas.height);
+
+        console.log(a);
     }
 </script>
 </body>

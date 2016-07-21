@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>弹性动画</title>
+</head>
+<body>
+<script src="js/ball.js"></script>
+<script src="js/utils.js"></script>
+<canvas id="canvas" width="1200" height="800" style="background-color: black">ubsupported browser
+</canvas>
+<p id="p" style="font-size: 20px">aaaa</p>
+<script>
+    window.onload = function () {
+        var canvas = document.getElementById('canvas'),
+                ctx = canvas.getContext('2d'),
+                p = document.getElementById('p'),
+                ball = new Ball(40, 'orange'),
+                spring = 0.03,
+                //targetX = canvas.width / 2,
+                vx = 0,
+                vy = 0,
+                targetX=0,
+                targetY=0,
+                friction=0.90;
+        //ball.x = 40;
+        ball.y = 400;
+        var mousePosition=utils.captureMouse(canvas);
+        canvas.addEventListener('mousemove',function (event) {
+            targetX=mousePosition.x;
+             targetY=mousePosition.y;
+        })
+        (function draw() {
+            window.requestAnimationFrame(draw, canvas);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            var dx = targetX - ball.x,
+                    ax = dx * spring,
+                    dy=targetY-ball.y,
+                    ay=dy*spring;
+            vx += ax;
+            vy+=ay;
+            vx*=friction;
+            vy*=friction;
+            ball.y+=vy;
+            ball.x += vx;
+            ball.draw(ctx);
+        }());
+
+    }
+</script>
+</body>
+</html>
