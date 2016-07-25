@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>多个球</title>
+</head>
+<body>
+<script src="js/ball.js"></script>
+<script src="js/utils.js"></script>
+<div>
+    <canvas id="canvas" width="1200" height="800">ubsupported browser</canvas>
+</div>
+<script>
+    var canvas = document.getElementById('canvas'),
+            ctx = canvas.getContext('2d'),
+            balls = [];
+    var image = new Image();
+    image.src = 'src/background.jpg';
+    var ol
+    for (var i = 0; i < 40; i++) {
+        var ball = new Ball(Math.random() * 50 + 5, Math.random() * 0xffffff);
+        ball.x = Math.random() * canvas.width;
+        ball.y = Math.random() * canvas.height;
+        ball.vx = Math.random() * 10 - 3;
+        ball.vy = Math.random() * 10 - 3;
+        balls.push(ball);
+    }
+    function drawa(ball) {
+        ball.draw(ctx);
+    }
+
+    function move(ball) {
+        ball.x += ball.vx;
+        ball.y += ball.vy;
+
+        if (ball.x + ball.radius >= canvas.width) {
+            ball.x = canvas.width - ball.radius;
+            ball.vx *= -1;
+
+        } else if (ball.x - ball.radius < 0) {
+            ball.x = ball.radius;
+            ball.vx *= -1;
+        }
+        if (ball.y + ball.radius >= canvas.height) {
+            ball.y = canvas.height - ball.radius;
+            ball.vy *= -1;
+        } else if (ball.y - ball.radius < 0) {
+            ball.y = ball.radius;
+            ball.vy *= -1;
+        }
+
+    }
+    (function drawFrame() {
+        window.requestAnimationFrame(drawFrame, canvas);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(image, 0, 0);
+        balls.forEach(move);
+        balls.forEach(drawa);
+        console.log(Math.random()+'哈哈哈');
+    }());
+
+</script>
+</body>
+</html>
