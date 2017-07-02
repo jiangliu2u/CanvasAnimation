@@ -1,2 +1,2 @@
 # CanvasAnimation
-canvas动画学习之路
+canvas animation learning
