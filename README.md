@@ -1,2 +1,2 @@
-# CanvasAnimation
-canvas animation learning
+# Canvas animation
+
